@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewUser(t *testing.T) {
+func Test_ShouldCreateNewUser(t *testing.T) {
 	user, err := NewUser("Luiz Henrique", "l@l.com", "123456")
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
@@ -16,7 +16,7 @@ func TestNewUser(t *testing.T) {
 	assert.NotEmpty(t, user.Password)
 }
 
-func TestUserValidatePassword(t *testing.T) {
+func Test_ShouldValidateUserPassword(t *testing.T) {
 	user, err := NewUser("Luiz Henrique", "l@l.com", "123456")
 	assert.Nil(t, err)
 	assert.True(t, user.ValidatePassword("123456"))
