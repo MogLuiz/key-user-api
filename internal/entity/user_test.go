@@ -15,3 +15,11 @@ func TestNewUser(t *testing.T) {
 	assert.Equal(t, "l@l.com", user.Email)
 	assert.NotEmpty(t, user.Password)
 }
+
+func TestUserValidatePassword(t *testing.T) {
+	user, err := NewUser("Luiz Henrique", "l@l.com", "123456")
+	assert.Nil(t, err)
+	assert.True(t, user.ValidatePassword("123456"))
+	assert.False(t, user.ValidatePassword("1234567"))
+	assert.NotEqual(t, "123456", user.Password)
+}
