@@ -127,3 +127,24 @@ func Test_E2E_ShouldFindAllProductsWithPagination(t *testing.T) {
 	assert.Equal(t, "Product 21", productsPage3[0].Name)
 	assert.Equal(t, "Product 24", productsPage3[3].Name)
 }
+
+func Test_E2E_ShouldFindAllProductsWithoutPagination(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	if err != nil {
+		t.Error(err)
+	}
+	db.AutoMigrate(&entity.Product{})
+
+	for i := 1; i <= 24; i++ {
+		product, err := entity.NewProduct(fmt.Sprintf("Product %d", i), rand.Float64()*100)
+		assert.Nil(t, err)
+		db.Create(product)
+	}
+
+	productDB := NewProduct(db)
+	products, err := productDB.FindAll(0, 0, "asc")
+	assert.NoError(t, err)
+	assert.Equal(t, 24, len(products))
+	assert.Equal(t, "Product 1", products[0].Name)
+	assert.Equal(t, "Product 24", products[23].Name)
+}
