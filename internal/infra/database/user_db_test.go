@@ -14,10 +14,18 @@ func Test_E2E_ShouldCreateNewUSer(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&entity.User{})
 	user, _ := entity.NewUser("John Doe", "j@j.com", "123456")
 	userDB := NewUser(db)
 
 	err = userDB.Create(user)
 	assert.Nil(t, err)
+
+	var userFound entity.User
+	err = db.First(&userFound, "id = ?", user.ID).Error
+	assert.Nil(t, err)
+	assert.Equal(t, user.ID, userFound.ID)
+	assert.Equal(t, user.Name, userFound.Name)
+	assert.Equal(t, user.Email, userFound.Email)
+	assert.Equal(t, user.Password, userFound.Password)
 }
