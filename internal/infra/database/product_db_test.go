@@ -47,3 +47,27 @@ func Test_E2E_ShouldFindProductByID(t *testing.T) {
 	assert.Equal(t, product.Name, productFound.Name)
 	assert.Equal(t, product.Price, productFound.Price)
 }
+
+func Test_E2E_ShouldUpdateProduct(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	if err != nil {
+		t.Error(err)
+	}
+	db.AutoMigrate(&entity.Product{})
+
+	product, err := entity.NewProduct("Product 1", 100)
+	assert.Nil(t, err)
+	productDB := NewProduct(db)
+	err = productDB.Create(product)
+	assert.NoError(t, err)
+
+	product.Name = "Product 2"
+	product.Price = 200
+	err = productDB.Update(product)
+	assert.NoError(t, err)
+
+	productFound, err := productDB.FindByID(product.ID.String())
+	assert.NoError(t, err)
+	assert.Equal(t, "Product 2", productFound.Name)
+	assert.Equal(t, 200, productFound.Price)
+}
