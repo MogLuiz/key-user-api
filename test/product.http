@@ -9,3 +9,13 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8000/products/a88a37fa-9495-4e8d-b5ce-28297b1a2db6 HTTP/1.1
+
+###
+
+PUT http://localhost:8000/products/a88a37fa-9495-4e8d-b5ce-28297b1a2db6 HTTP/1.1
+Content-Type: application/json
+    
+    {
+        "name": "My Product updated",
+        "price": 1350.00
+    }
