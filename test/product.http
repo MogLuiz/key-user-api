@@ -8,6 +8,10 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:8000/products?page=1&limit=10 HTTP/1.1
+
+###
+
 GET http://localhost:8000/products/a88a37fa-9495-4e8d-b5ce-28297b1a2db6 HTTP/1.1
 
 ###

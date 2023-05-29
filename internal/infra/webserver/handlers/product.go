@@ -41,6 +41,18 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
+	page, limit, sort := r.URL.Query().Get("page"), r.URL.Query().Get("limit"), r.URL.Query().Get("sort")
+	products, err := h.ProductDB.FindAll(entityPkg.ParseInt(page), entityPkg.ParseInt(limit), sort)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}
+
 func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
