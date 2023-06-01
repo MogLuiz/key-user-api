@@ -17,9 +17,11 @@ type UserHandler struct {
 	JwtExpiresIn int
 }
 
-func NewUserHandler(userDB database.IUser) *UserHandler {
+func NewUserHandler(userDB database.IUser, jwt *jwtauth.JWTAuth, JwtExpiresIn int) *UserHandler {
 	return &UserHandler{
-		UserDB: userDB,
+		UserDB:       userDB,
+		Jwt:          jwt,
+		JwtExpiresIn: JwtExpiresIn,
 	}
 }
 
