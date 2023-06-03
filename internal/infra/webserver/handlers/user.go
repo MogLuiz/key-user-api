@@ -12,23 +12,19 @@ import (
 )
 
 type UserHandler struct {
-	UserDB       database.IUser
-	JwtExpiresIn int
+	UserDB database.IUser
 }
 
-func NewUserHandler(userDB database.IUser, JwtExpiresIn int) *UserHandler {
+func NewUserHandler(userDB database.IUser) *UserHandler {
 	return &UserHandler{
-		UserDB:       userDB,
-		JwtExpiresIn: JwtExpiresIn,
+		UserDB: userDB,
 	}
 }
 
 func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
-	if jwt == nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	jwtExpiresIn := r.Context().Value("jwtExpiresIn").(int)
+
 	var user dto.GetJWTInput
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -47,7 +43,7 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 
 	_, tokenString, _ := jwt.Encode(map[string]interface{}{
 		"sub": u.ID.String(),
-		"exp": time.Now().Add(time.Second * time.Duration(h.JwtExpiresIn)).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(jwtExpiresIn)).Unix(),
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
