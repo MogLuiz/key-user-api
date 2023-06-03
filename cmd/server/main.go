@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/MogLuiz/key-user-api/configs"
@@ -32,6 +33,7 @@ func main() {
 	userHandler := handlers.NewUserHandler(userDB, configs.TokenAuth, configs.JwtExperesIn)
 
 	r := chi.NewRouter()
+	r.Use(LogRequest)
 	r.Use(middleware.Logger)
 
 	r.Route("/products", func(r chi.Router) {
@@ -51,4 +53,11 @@ func main() {
 	})
 
 	http.ListenAndServe(":8000", r)
+}
+
+func LogRequest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Request: %s %s", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
+	})
 }
