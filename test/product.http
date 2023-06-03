@@ -9,7 +9,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8000/products?page=1&limit=10 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU4MzM1MzQsInN1YiI6ImM3ZTFiZTQ5LTI5ZjQtNDZmOC1hY2EyLWFlNTBhY2EyYmJmMCJ9.dglGyd3_fRqNkhIZGFm9gd4RGdxE4LttwENG-7cgCZo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU4MzYzMzMsInN1YiI6ImM3ZTFiZTQ5LTI5ZjQtNDZmOC1hY2EyLWFlNTBhY2EyYmJmMCJ9.SZb90vXtUrOdhjEAww2CC8SMNRt9wd2LrUBF4oBkUvc
 
 ###
 
