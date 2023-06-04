@@ -14,6 +14,20 @@ import (
 	"gorm.io/gorm"
 )
 
+// @title           Key User API Example
+// @version         1.0
+// @description     Product API with auhtentication
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Luiz Henrique
+// @contact.url    http://www.github.com/MogLuiz
+// @contact.email  luizhjramos@outlook.com
+
+// @host      localhost:8000
+// @BasePath  /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	configs, err := configs.LoadConfig(".")
 	if err != nil {
